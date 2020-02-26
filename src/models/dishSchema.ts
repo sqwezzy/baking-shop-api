@@ -1,5 +1,5 @@
-import { Schema } from "mongoose";
-import * as mongoose from "mongoose";
+import { Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 const dishSchema = new Schema({
     name: {
@@ -24,4 +24,5 @@ const dishSchema = new Schema({
     }
 });
 
-export default mongoose.model('dish', dishSchema);
+let Dish = mongoose.model('dish', dishSchema);
+export {Dish}

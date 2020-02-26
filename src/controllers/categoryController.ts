@@ -1,6 +1,5 @@
-import Category from "../models/categorySchema";
-
-
+import { Category } from '../models/categorySchema';
+import {Request, Response} from 'express';
 
 
 async function addCategory(req: any, res: any) {
@@ -19,9 +18,9 @@ async function addCategory(req: any, res: any) {
 async function getCategoryById(req: any, res: any) {
     try {
         const category = await Category.findById(req.params.id);
-        res.status(200).json(category)
+        res.status(200).send(category)
     } catch (error) {
-        res.status(500).json(error.message)
+        res.status(500).send(error.message)
     }
 }
 
@@ -37,12 +36,23 @@ async function getCategories(req: any, res: any) {
 async function deleteCategory(req: any, res: any) {
     try {
         await Category.deleteOne({_id: req.params.id});
-        res.status(200).json({
-            message: 'Category deleted',
-        })
+        res.status(200).send('Category deleted')
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+}
+
+async function updateCategory(req: Request, res: Response) {
+    try {
+        const dish = await Category.findOneAndUpdate(
+            {_id: req.params.id},
+            {$set: req.body},
+            {new: true}
+        );
+        res.status(200).json(dish)
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
 
-export {addCategory, getCategories, getCategoryById, deleteCategory}
+export { addCategory, getCategories, getCategoryById, deleteCategory, updateCategory }

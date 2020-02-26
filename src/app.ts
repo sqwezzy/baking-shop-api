@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { constant } from "./config/const";
-import categoryRout from "./routers/categoryRout";
-import dishRout from "./routers/dishRout";
+import { categoryRout } from "./routers/categoryRout";
+import { dishRout } from "./routers/dishRout";
 
 const app = express();
 
@@ -15,6 +15,7 @@ const app = express();
                 useFindAndModify: false })
             .then(() => console.log('MongoDB connected.'))
             .catch(error => console.log(error));
+
         app.use(cors());
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(bodyParser.json());
