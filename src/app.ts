@@ -7,7 +7,6 @@ import { categoryRout } from "./routers/categoryRout";
 import { dishRout } from "./routers/dishRout";
 
 const app = express();
-
         mongoose.connect(constant.mongoURI,
             { useNewUrlParser: true,
                 useCreateIndex: true,
@@ -16,12 +15,15 @@ const app = express();
             .then(() => console.log('MongoDB connected.'))
             .catch(error => console.log(error));
 
-        app.use(cors());
+app.use(
+    cors({
+            origin: ['http://localhost:4200'],
+            optionsSuccessStatus: 200,
+    }),
+);
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(bodyParser.json());
 
-        app.use('/categories', categoryRout);
+        app.use('/categories',categoryRout);
         app.use('/dishes', dishRout);
-
-
 export {app}

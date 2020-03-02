@@ -2,6 +2,10 @@ import { Schema } from 'mongoose';
 import * as mongoose from 'mongoose';
 
 const dishSchema = new Schema({
+    code: {
+      type: Number,
+      required: true  
+    },
     name: {
         type: String,
         required: true,

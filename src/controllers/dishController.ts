@@ -4,10 +4,11 @@ import { Response, Request } from 'express';
 
 async function addDish(req: Request, res:Response ) {
     const dish = new Dish({
+        code: req.body.code,
         name: req.body.name,
         price: req.body.price,
         rating: req.body.rating,
-        categoryCode: req.body.rating,
+        categoryCode: req.body.categoryCode,
         img: req.body.img,
     });
     try {
