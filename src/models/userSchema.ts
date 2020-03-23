@@ -11,7 +11,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    login: {
+    email: {
         type: String,
         required: true,
             unique: true
@@ -23,6 +23,7 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         required: true,
+        default: false,
     }
 });
 
