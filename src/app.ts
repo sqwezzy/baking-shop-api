@@ -23,10 +23,10 @@ mongoose.connect(constant.mongoURI,
 app.use(passport.initialize());
 passportPath(passport);
 
-    cors({
-        origin: ['http://localhost:4200'],
-        optionsSuccessStatus: 200,
-    });
+app.use(cors({
+    origin: ['http://localhost:4200'],
+    optionsSuccessStatus: 200,
+}));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
