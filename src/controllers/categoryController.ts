@@ -1,8 +1,10 @@
 import { Category } from '../models/categorySchema';
 import {Request, Response} from 'express';
+import multer from 'multer'
+const upload = multer({dest: 'uploads/'});
 
 
-async function addCategory(req: any, res: any) {
+async function addCategory(req: Request, res: Response) {
     const category = new Category({
         code: req.body.code,
         name: req.body.name,
@@ -15,7 +17,7 @@ async function addCategory(req: any, res: any) {
     }
 }
 
-async function getCategoryById(req: any, res: any) {
+async function getCategoryById(req: Request, res: Response) {
     try {
         const category = await Category.findById(req.params.id);
         res.status(200).send(category)
@@ -24,7 +26,8 @@ async function getCategoryById(req: any, res: any) {
     }
 }
 
-async function getCategories(req: any, res: any) {
+
+async function getCategories(req: Request, res: Response) {
     try {
         const categories = await Category.find({});
         res.status(200).send(categories)
@@ -33,23 +36,24 @@ async function getCategories(req: any, res: any) {
     }
 }
 
-async function deleteCategory(req: any, res: any) {
+async function deleteCategory(req: Request, res: Response) {
     try {
         await Category.deleteOne({_id: req.params.id});
-        res.status(200).send('Category deleted')
+        res.status(200).json('Category deleted')
     } catch (error) {
-        res.status(500).send(error.message)
+        res.status(500).json(error.message)
     }
 }
 
 async function updateCategory(req: Request, res: Response) {
+    console.log(req.body);
     try {
-        const dish = await Category.findOneAndUpdate(
+        const category = await Category.findOneAndUpdate(
             {_id: req.params.id},
             {$set: req.body},
             {new: true}
         );
-        res.status(200).json(dish)
+        res.status(200).json("Category change")
     } catch (error) {
         res.status(500).json(error.message)
     }

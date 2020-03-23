@@ -2,14 +2,16 @@ import  { Dish } from '../models/dishSchema';
 import { Response, Request } from 'express';
 
 
+
 async function addDish(req: Request, res:Response ) {
+    console.log(req.file);
     const dish = new Dish({
         code: req.body.code,
         name: req.body.name,
         price: req.body.price,
         rating: req.body.rating,
         categoryCode: req.body.categoryCode,
-        img: req.body.img,
+        img: req.file.path,
     });
     try {
         await dish.save();
@@ -47,10 +49,15 @@ async function deleteDish(req: Request, res: Response) {
 }
 
 async function updateDish(req: Request, res: Response) {
+    let requestData = req.body;
+
+    if(req.file) {
+      requestData.img = req.file.path;
+    }
     try {
         const dish = await Dish.findOneAndUpdate(
             {_id: req.params.id},
-            {$set: req.body},
+            {$set: requestData},
             {new: true}
         );
         res.status(200).json(dish)

@@ -2,6 +2,9 @@ import * as mongoose from 'mongoose';
 import {Schema} from 'mongoose';
 
 const categorySchema = new Schema({
+    id: {
+        type: String,
+    },
     code: {
         type: Number,
         required: true
