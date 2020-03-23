@@ -1,11 +1,12 @@
 import { Schema } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { Category } from './categorySchema';
 
 const dishSchema = new Schema({
-    code: {
-      type: Number,
-      required: true  
+    id: {
+        type: String,
     },
+
     name: {
         type: String,
         required: true,
@@ -25,7 +26,8 @@ const dishSchema = new Schema({
     img: {
         type: String,
         required: true,
-    }
+    },
+
 });
 
 let Dish = mongoose.model('dish', dishSchema);

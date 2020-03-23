@@ -1,14 +1,15 @@
 import express from 'express'
 import { addDish, getDishes, getDishById, deleteDish, updateDish } from '../controllers/dishController';
-import { categoryRout } from './categoryRout';
+import {upload} from '../middleware/upload';
+
 
 
 const dishRout = express.Router();
 
-dishRout.post('/', addDish);
+dishRout.post('/', upload.single('img'), addDish);
 dishRout.get('/:id', getDishById);
 dishRout.get('/', getDishes);
-categoryRout.put('/:id', updateDish);
+dishRout.put('/:id', upload.single('img'), updateDish);
 dishRout.delete('/:id', deleteDish);
 
 export {dishRout};
