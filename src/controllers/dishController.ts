@@ -1,17 +1,19 @@
 import  { Dish } from '../models/dishSchema';
 import { Response, Request } from 'express';
+import { Db } from 'mongodb';
 
 
 
 async function addDish(req: Request, res:Response ) {
-    console.log(req.file);
     const dish = new Dish({
-        code: req.body.code,
         name: req.body.name,
         price: req.body.price,
         rating: req.body.rating,
         categoryCode: req.body.categoryCode,
         img: req.file.path,
+        weight: req.body.weight,
+        composition: req.body.composition,
+        description: req.body.description,
     });
     try {
         await dish.save();
@@ -55,6 +57,7 @@ async function updateDish(req: Request, res: Response) {
       requestData.img = req.file.path;
     }
     try {
+        console.log(req.file.path);
         const dish = await Dish.findOneAndUpdate(
             {_id: req.params.id},
             {$set: requestData},
@@ -66,4 +69,13 @@ async function updateDish(req: Request, res: Response) {
     }
 }
 
-export { addDish,getDishById,getDishes,deleteDish, updateDish};
+async function deleteManyDish(req: Request, res:Response) {
+    try{
+        await Dish.deleteMany({categoryCode: req.params.categoryCode});
+        res.status(200).json("Dishes deleted")
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+export { addDish,getDishById,getDishes,deleteDish, updateDish, deleteManyDish };

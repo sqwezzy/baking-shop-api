@@ -1,5 +1,5 @@
 import express from 'express'
-import { addDish, getDishes, getDishById, deleteDish, updateDish } from '../controllers/dishController';
+import { addDish, getDishes, getDishById, deleteDish, updateDish, deleteManyDish } from '../controllers/dishController';
 import {upload} from '../middleware/upload';
 
 
@@ -11,5 +11,6 @@ dishRout.get('/:id', getDishById);
 dishRout.get('/', getDishes);
 dishRout.put('/:id', upload.single('img'), updateDish);
 dishRout.delete('/:id', deleteDish);
+dishRout.delete('/delete/:categoryCode', deleteManyDish);
 
 export {dishRout};

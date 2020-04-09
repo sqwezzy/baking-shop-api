@@ -6,7 +6,6 @@ const dishSchema = new Schema({
     id: {
         type: String,
     },
-
     name: {
         type: String,
         required: true,
@@ -27,7 +26,18 @@ const dishSchema = new Schema({
         type: String,
         required: true,
     },
-
+    weight: {
+        type: Number,
+        required: true,
+    },
+    composition: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true,
+    }
 });
 
 let Dish = mongoose.model('dish', dishSchema);
