@@ -1,12 +1,12 @@
-import  { User } from '../models/userSchema';
+import { User } from '../models/userSchema';
 import { Response, Request } from 'express';
-import  { constant } from '../config/const'
+import { constant } from '../config/const'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
 
 
 async function login(req: Request, res: Response) {
-    const candidate: any = await User.findOne({email: req.body.email})  
+    const candidate: any = await User.findOne({ email: req.body.email })
     if (candidate) {
         const passwordResult = bcrypt.compareSync(req.body.password, candidate.password);
         if (passwordResult) {
@@ -14,12 +14,15 @@ async function login(req: Request, res: Response) {
                 userId: candidate._id,
                 userEmail: candidate.email,
                 userAdmin: candidate.isAdmin,
-            }, constant.jwt, {expiresIn: 60 * 60});
-            res.status(200).json({token: `Bearer ${token}`});
+            }, constant.jwt, { expiresIn: 60 * 60 });
+            res.status(200).json({
+                token: `Bearer ${token}`,
+                user: candidate,
+            });
         } else {
             res.status(401).json('Wrong password');
         }
-    } else { 
+    } else {
         res.status(404).json("User with this email not found")
     }
 }
@@ -27,7 +30,7 @@ async function login(req: Request, res: Response) {
 
 
 async function registration(req: Request, res: Response) {
-    const candidate = await User.findOne({email: req.body.email})
+    const candidate = await User.findOne({ email: req.body.email })
     if (candidate) {
         res.status(409).json('User with this email exist')
     } else {
@@ -45,7 +48,7 @@ async function registration(req: Request, res: Response) {
             res.status(201).json(user);
         } catch (error) {
             res.status(500).json(error.message)
-    }
+        }
     }
 }
 

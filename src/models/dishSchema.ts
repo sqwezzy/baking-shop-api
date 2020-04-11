@@ -24,7 +24,6 @@ const dishSchema = new Schema({
     },
     img: {
         type: String,
-        required: true,
     },
     weight: {
         type: Number,

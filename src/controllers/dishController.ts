@@ -1,17 +1,17 @@
-import  { Dish } from '../models/dishSchema';
+import { Dish } from '../models/dishSchema';
 import { Response, Request } from 'express';
 import { Db } from 'mongodb';
 
 
 
-async function addDish(req: Request, res:Response ) {
+async function addDish(req: Request, res: Response) {
     const dish = new Dish({
         name: req.body.name,
-        price: req.body.price,
-        rating: req.body.rating,
-        categoryCode: req.body.categoryCode,
+        price: parseInt(req.body.price),
+        rating: parseInt(req.body.rating),
+        categoryCode: parseInt(req.body.categoryCode),
         img: req.file.path,
-        weight: req.body.weight,
+        weight: parseInt(req.body.weight),
         composition: req.body.composition,
         description: req.body.description,
     });
@@ -43,7 +43,7 @@ async function getDishes(req: Request, res: Response) {
 
 async function deleteDish(req: Request, res: Response) {
     try {
-        await Dish.deleteOne({_id: req.params.id});
+        await Dish.deleteOne({ _id: req.params.id });
         res.status(200).json('Dish deleted')
     } catch (error) {
         res.status(500).json(error.message)
@@ -52,16 +52,26 @@ async function deleteDish(req: Request, res: Response) {
 
 async function updateDish(req: Request, res: Response) {
     let requestData = req.body;
-
-    if(req.file) {
-      requestData.img = req.file.path;
-    }
+    // if(req.file) {
+    //   requestData.img = req.file.path;
+    // }
     try {
         console.log(req.file.path);
         const dish = await Dish.findOneAndUpdate(
-            {_id: req.params.id},
-            {$set: requestData},
-            {new: true}
+            { _id: req.params.id },
+            {
+                $set: {
+                    name: req.body.name,
+                    price: parseInt(req.body.price),
+                    rating: parseInt(req.body.rating),
+                    categoryCode: parseInt(req.body.categoryCode),
+                    img: req.file.path,
+                    weight: parseInt(req.body.weight),
+                    composition: req.body.composition,
+                    description: req.body.description,
+                }
+            },
+            { new: true }
         );
         res.status(200).json(dish)
     } catch (error) {
@@ -69,13 +79,13 @@ async function updateDish(req: Request, res: Response) {
     }
 }
 
-async function deleteManyDish(req: Request, res:Response) {
-    try{
-        await Dish.deleteMany({categoryCode: req.params.categoryCode});
+async function deleteManyDish(req: Request, res: Response) {
+    try {
+        await Dish.deleteMany({ categoryCode: req.params.categoryCode });
         res.status(200).json("Dishes deleted")
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
 
-export { addDish,getDishById,getDishes,deleteDish, updateDish, deleteManyDish };
+export { addDish, getDishById, getDishes, deleteDish, updateDish, deleteManyDish };
