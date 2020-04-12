@@ -1,6 +1,5 @@
 import { Dish } from '../models/dishSchema';
 import { Response, Request } from 'express';
-import { Db } from 'mongodb';
 
 
 
@@ -43,18 +42,14 @@ async function getDishes(req: Request, res: Response) {
 
 async function deleteDish(req: Request, res: Response) {
     try {
-        await Dish.deleteOne({ _id: req.params.id });
-        res.status(200).json('Dish deleted')
+        const dish = await Dish.deleteOne({ _id: req.params.id });
+        res.status(200).json({ message: 'Dish deleted', dish: dish })
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
 
 async function updateDish(req: Request, res: Response) {
-    let requestData = req.body;
-    // if(req.file) {
-    //   requestData.img = req.file.path;
-    // }
     try {
         console.log(req.file.path);
         const dish = await Dish.findOneAndUpdate(

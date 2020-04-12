@@ -5,18 +5,23 @@ const upload = multer({ dest: 'uploads/' });
 
 
 async function addCategory(req: Request, res: Response) {
-    const category = new Category({
-        code: req.body.code,
-        name: req.body.name,
-    });
-    try {
-        await category.save();
-        res.status(201).json({
-            category: category,
-            message: 'Category aded'
+    const addedCategory = await Category.findOne({ name: req.body.name })
+    if (addedCategory) {
+        res.status(409).json('A category with the same name already exists');
+    } else {
+        const category = new Category({
+            code: req.body.code,
+            name: req.body.name,
         });
-    } catch (error) {
-        res.status(500).send(error.message)
+        try {
+            await category.save();
+            res.status(201).json({
+                category: category,
+                message: 'Category aded'
+            });
+        } catch (error) {
+            res.status(500).send(error.message)
+        }
     }
 }
 
@@ -54,16 +59,23 @@ async function deleteCategory(req: Request, res: Response) {
 }
 
 async function updateCategory(req: Request, res: Response) {
-    console.log(req.body);
-    try {
-        const category = await Category.findOneAndUpdate(
-            { _id: req.params.id },
-            { $set: req.body },
-            { new: true }
-        );
-        res.status(200).json({ message: "Category change" })
-    } catch (error) {
-        res.status(500).json(error.message)
+    const updatedCategory = await Category.findOne({ name: req.body.name })
+    if (updatedCategory) {
+        res.status(409).json('A category with the same name already exists')
+    } else {
+        try {
+            const category = await Category.findOneAndUpdate(
+                { _id: req.params.id },
+                { $set: req.body },
+                { new: true }
+            );
+            res.status(200).json({
+                message: 'Category changed',
+                category: category
+            })
+        } catch (error) {
+            res.status(500).json(error.message)
+        }
     }
 }
 
