@@ -14,7 +14,7 @@ async function login(req: Request, res: Response) {
                 userId: candidate._id,
                 userEmail: candidate.email,
                 userAdmin: candidate.isAdmin,
-            }, constant.jwt, { expiresIn: 60 * 60 });
+            }, constant.jwt);
             res.status(200).json({
                 token: `Bearer ${token}`,
                 user: candidate,

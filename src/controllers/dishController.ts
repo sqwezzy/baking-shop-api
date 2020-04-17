@@ -1,14 +1,19 @@
 import { Dish } from '../models/dishSchema';
 import { Response, Request } from 'express';
+import { ADDRGETNETWORKPARAMS } from 'dns';
 
 
 
 async function addDish(req: Request, res: Response) {
+    console.log(req);
+    if (req.file) {
+        req.body.img = req.file.path;
+    }
     const dish = new Dish({
         name: req.body.name,
         price: parseInt(req.body.price),
         rating: parseInt(req.body.rating),
-        categoryCode: parseInt(req.body.categoryCode),
+        categoryId: req.body.categoryId,
         img: req.file.path,
         weight: parseInt(req.body.weight),
         composition: req.body.composition,
@@ -69,11 +74,12 @@ async function updateDish(req: Request, res: Response) {
 
 async function deleteManyDish(req: Request, res: Response) {
     try {
-        await Dish.deleteMany({ categoryCode: req.params.categoryCode });
+        await Dish.deleteMany({ categoryId: req.params.categoryId });
         res.status(200).json("Dishes deleted")
     } catch (error) {
         res.status(500).json(error.message)
     }
 }
+
 
 export { addDish, getDishById, getDishes, deleteDish, updateDish, deleteManyDish };

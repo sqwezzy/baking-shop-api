@@ -10,7 +10,6 @@ async function addCategory(req: Request, res: Response) {
         res.status(409).json('A category with the same name already exists');
     } else {
         const category = new Category({
-            code: req.body.code,
             name: req.body.name,
         });
         try {

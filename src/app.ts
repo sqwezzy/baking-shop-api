@@ -2,10 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import {constant} from './config/const';
-import {categoryRout} from './routers/categoryRout';
-import {dishRout} from './routers/dishRout';
-import {userRoute} from './routers/userRoute';
+import { constant } from './config/const';
+import { categoryRout } from './routers/categoryRout';
+import { dishRout } from './routers/dishRout';
+import { userRoute } from './routers/userRoute';
+import { feedbackRout } from './routers/feedbackRout';
 import { passportPath } from './middleware/passport'
 import passport from 'passport'
 
@@ -28,10 +29,11 @@ app.use(cors({
     optionsSuccessStatus: 200,
 }));
 app.use('/uploads', express.static('uploads'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/user', userRoute)
 app.use('/categories', categoryRout);
 app.use('/dishes', dishRout);
-export {app}
+app.use('/feedbacks', feedbackRout);
+export { app }

@@ -10,8 +10,8 @@ const dishSchema = new Schema({
         type: String,
         required: true,
     },
-    categoryCode: {
-        type: Number,
+    categoryId: {
+        type: Schema.Types.ObjectId,
         required: true,
     },
     price: {

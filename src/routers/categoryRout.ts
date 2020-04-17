@@ -3,10 +3,10 @@ import { addCategory, getCategoryById, getCategories, deleteCategory, updateCate
 import passport from 'passport'
 const categoryRout = express.Router();
 
-categoryRout.post('/',addCategory);
+categoryRout.post('/', passport.authenticate('jwt', { session: false }), addCategory);
 categoryRout.get('/:id', getCategoryById);
 categoryRout.get('/', getCategories);
-categoryRout.put( '/:id', updateCategory);
+categoryRout.put('/:id', updateCategory);
 categoryRout.delete('/:id', deleteCategory);
 
-export {categoryRout};
+export { categoryRout };

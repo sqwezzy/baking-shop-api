@@ -20,8 +20,7 @@ export const passportPath = (passport: any) => {
                     done(null, false)
                 }
             } catch (error) {
-                console.log(error)
-
+                done(error, false);
             }
 
         })

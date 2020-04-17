@@ -11,6 +11,6 @@ dishRout.get('/:id', getDishById);
 dishRout.get('/', getDishes);
 dishRout.put('/:id', upload.single('img'), updateDish);
 dishRout.delete('/:id', deleteDish);
-dishRout.delete('/delete/:categoryCode', deleteManyDish);
+dishRout.delete('/delete/:categoryId', deleteManyDish);
 
 export {dishRout};
