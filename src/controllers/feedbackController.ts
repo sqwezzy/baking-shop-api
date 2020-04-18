@@ -1,7 +1,6 @@
 import { Feedback } from '../models/feedbackSchema';
 import { Response, Request } from 'express';
 
-
 async function addFeedback(req: Request, res: Response) {
     const feedback = new Feedback({
         name: req.body.name,
@@ -24,4 +23,18 @@ async function getFeedbacks(req: Request, res: Response) {
     }
 }
 
-export {addFeedback, getFeedbacks}
+async function deleteFeedback(req: Request, res: Response) {
+    try {
+        const feedback = await Feedback.findById(req.params.id)
+        await Feedback.deleteOne({ _id: req.params.id });
+        res.status(200).json(
+            {
+                message: 'Feedback deleted',
+                feedback: feedback,
+            })
+    } catch (error) {
+        res.status(500).json(error.message)
+    }
+}
+
+export { addFeedback, getFeedbacks, deleteFeedback }
